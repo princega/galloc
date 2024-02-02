@@ -2,42 +2,58 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <assert.h>
+#include <unistd.h>
+
+#define MAX 8388608
+uint8_t pool[MAX];
 
 typedef struct {
   size_t total;
   size_t size;
-  uint8_t* data_ptr;
+  uint8_t* beg;
+  uint8_t* end;
 } Arena;
 
-Arena arena_init(size_t capacity){
-  void* d = malloc(capacity*sizeof(uint8_t));
-  Arena arena = {
+Arena init(size_t capacity){
+  assert(capacity<=MAX);
+  Arena a = {
     .total = capacity,
     .size = 0,
-    .data_ptr = d,
+    .beg = &pool[0],
+    .end = &pool[capacity-1],
   };
-  return arena;
+  return a;
 }
 
-void print(Arena* a){
-  printf("Size = %lu\nCapacity = %lu\n", a->size, a->total);
-}
-
-void* alloc(Arena* a, size_t s){
-  assert(a->size+s < a->total);
-  uint8_t data[s];
-  void* d = &data;
+uint8_t* allocate(Arena* a, size_t s){
+  assert(a->size + s <= a->total);
+  uint8_t* ptr = &pool[a->size+s-1];
   a->size += s;
-  return d;
+  return ptr;
 }
 
-void free_arena(Arena* a){
+void freea(Arena* a){
   a->size = 0;
   a->total = 0;
-  free(a->data_ptr);
+  a->beg = NULL;
+  a->end = NULL;
+}
+
+void info(Arena* a){
+  printf("Size = %lu\nCapacity = %lu\n", a->size, a->total);
+  printf("Starting Address = %p\nEnding Address = %p\n",a->beg, a->end);
 }
 
 int main(){
-  Arena a = arena_init(1024);
+  Arena a = init(78);
+  Arena* p = &a;
+  uint8_t* tr =  allocate(p, 7);
+  sleep(2);
+  tr = allocate(p, 2);
+  sleep(2);
 
+  //this should cause pool overflow
+  tr = allocate(p, 304);
+
+  return 0;
 }

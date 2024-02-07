@@ -1,7 +1,5 @@
 #include "arena.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include <assert.h>
 
 Arena init(uint8_t* ptr, size_t capacity){
@@ -14,8 +12,12 @@ Arena init(uint8_t* ptr, size_t capacity){
 }
 
 uint8_t* allocate(Arena* a, size_t s){
-  assert(a->size + s <= a->total);
-  uint8_t* ptr = &pool[a->size+s-1];
+  if(a->size + s > a -> total){
+    uint8_t* ptr = NULL;
+    return ptr;
+  }
+  uint8_t* ptr = a->beg;
+  ptr += a->size;
   a->size += s;
   return ptr;
 }

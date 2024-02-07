@@ -10,4 +10,5 @@ typedef struct{
 Arena init (uint8_t* pool_ptr, size_t capacity);
 uint8_t* allocate(Arena* a, size_t s);
 void freea(Arena* a);
+size_t findi(size_t current, size_t num);
 void info (Arena* a);

@@ -1,6 +1,17 @@
 #include "arena.h"
 #include <stdio.h>
-#include <assert.h>
+#include <math.h>
+
+size_t findi(size_t current, size_t num){
+  if(num<4) return current+num;
+  else {
+    float q = current;
+    float w = num;
+    q = ceil(q/w)*w;
+    size_t y = q;
+    return y;
+  }
+}
 
 Arena init(uint8_t* ptr, size_t capacity){
   Arena a = {
@@ -17,8 +28,9 @@ uint8_t* allocate(Arena* a, size_t s){
     return ptr;
   }
   uint8_t* ptr = a->beg;
-  ptr += a->size;
-  a->size += s;
+  size_t temp = findi(a->size, s);
+  ptr += temp;
+  a->size = temp;
   return ptr;
 }
 

@@ -2,9 +2,9 @@
 #include <stdint.h>
 
 typedef struct{
-  size_t capacity;
+  size_t total;
   size_t size;
-  uint8_t* p;
+  uint8_t* beg;
 } Arena;
 
 Arena init (uint8_t* pool_ptr, size_t capacity);

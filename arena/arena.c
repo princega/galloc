@@ -1,16 +1,10 @@
+#include "arena.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <unistd.h>
 #include <assert.h>
 
-typedef struct {
-  size_t total;
-  size_t size;
-  uint8_t* beg;
-} Arena;
-
-Arena init(void* ptr, size_t capacity){
+Arena init(uint8_t* ptr, size_t capacity){
   Arena a = {
     .total = capacity,
     .size = 0,

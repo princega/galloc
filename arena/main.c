@@ -5,7 +5,6 @@
 #include <unistd.h>
 
 #define MAX 8388608
-uint8_t pool[MAX];
 
 typedef struct {
   size_t total;
@@ -14,13 +13,13 @@ typedef struct {
   uint8_t* end;
 } Arena;
 
-Arena init(size_t capacity){
+Arena init(void* ptr, size_t capacity){
   assert(capacity<=MAX);
   Arena a = {
     .total = capacity,
     .size = 0,
-    .beg = &pool[0],
-    .end = &pool[capacity-1],
+    .beg = &ptr,
+    .end = &ptr[capacity-1],
   };
   return a;
 }
@@ -45,15 +44,8 @@ void info(Arena* a){
 }
 
 int main(){
-  Arena a = init(78);
-  Arena* p = &a;
-  uint8_t* tr =  allocate(p, 7);
-  sleep(2);
-  tr = allocate(p, 2);
-  sleep(2);
 
-  //this should cause pool overflow
-  tr = allocate(p, 304);
+
 
   return 0;
 }

@@ -30,7 +30,7 @@ void freea(Arena* a){
 
 void info(Arena* a){
   printf("Size = %lu\nCapacity = %lu\n", a->size, a->total);
-  printf("Starting Address = %p\nEnding Address = %p\n",a->beg, a->end);
+  printf("Starting Address = %p\n",a->beg);
 }
 
 int main(){

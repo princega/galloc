@@ -2,14 +2,13 @@
 #include <stdio.h>
 #include <math.h>
 
-size_t findi(size_t current, size_t num){
-  if(num<4) return current+num;
+size_t findi(size_t current, size_t parameter, size_t s){
+  float r = current;
+  float y = parameter;
+  if(y<2) return current + s;
   else {
-    float q = current;
-    float w = num;
-    q = ceil(q/w)*w;
-    size_t y = q;
-    return y;
+    r = ceil(r/y)*y + s;
+    return (size_t)r;
   }
 }
 
@@ -22,13 +21,13 @@ Arena init(uint8_t* ptr, size_t capacity){
   return a;
 }
 
-uint8_t* allocate(Arena* a, size_t s){
+uint8_t* allocate(Arena* a, size_t s, size_t parameter){
   if(a->size + s > a -> total){
     uint8_t* ptr = NULL;
     return ptr;
   }
   uint8_t* ptr = a->beg;
-  size_t temp = findi(a->size, s);
+  size_t temp = findi(a->size, parameter, s);
   ptr += temp;
   a->size = temp;
   return ptr;

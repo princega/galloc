@@ -28,8 +28,8 @@ uint8_t* allocate(Arena* a, size_t s, size_t parameter){
   }
   uint8_t* ptr = a->beg;
   size_t temp = findi(a->size, parameter);
-  ptr += (temp + s);
-  a->size = (temp + s);
+  ptr += temp;
+  a->size = (temp + s-1);
   return ptr;
 }
 

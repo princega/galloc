@@ -2,12 +2,12 @@
 #include <stdio.h>
 #include <math.h>
 
-size_t findi(size_t current, size_t parameter, size_t s){
+size_t findi(size_t current, size_t parameter){
   float r = current;
   float y = parameter;
-  if(y<2) return current + s;
+  if(y<2) return current+parameter;
   else {
-    r = ceil(r/y)*y + s;
+    r = ceil(r/y) * y;
     return (size_t)r;
   }
 }
@@ -27,9 +27,9 @@ uint8_t* allocate(Arena* a, size_t s, size_t parameter){
     return ptr;
   }
   uint8_t* ptr = a->beg;
-  size_t temp = findi(a->size, parameter, s);
-  ptr += temp;
-  a->size = temp;
+  size_t temp = findi(a->size, parameter);
+  ptr += (temp + s);
+  a->size = (temp + s);
   return ptr;
 }
 
